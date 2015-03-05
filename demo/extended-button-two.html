@@ -1,0 +1,17 @@
+<link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/layout/layout.html">
+<dom-module id="extended-button-two">
+  <template>
+    <paper-shadow class="fit" z="1"></paper-shadow>
+    <paper-ripple></paper-ripple>
+    <content></content>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'extended-button-two',
+
+    extends: 'button',
+  });
+</script>

@@ -4,6 +4,8 @@
     <title>Perf Test</title>
     <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="./extended-button.html">
+    <link rel="import" href="./extended-button-two.html">
     <link rel="import" href="./stateful-element.html">
     <link rel="import" href="./shallow-element.html">
     <link rel="import" href="./shallow-element-two.html">
@@ -26,9 +28,22 @@ function test(tagName, times) {
   }
 }
 
+function testXButton(tagName, times) {
+  times = times || 1;
+
+  for (var i = 0; i < times; ++i) {
+    var el = document.createElement('button', tagName);
+    document.body.appendChild(el);
+    el.disabled = true;
+    el.removeAttribute('disabled');
+    document.body.removeChild(el);
+  }
+}
+
     </script>
     <h4>Control (Native Button)</h4>
     <button onclick="test('button',1)">Test Button x 1</button>
+
     <button onclick="test('button',1000)">Test Button x 1000</button>
 
     <h4>Disabled Only</h4>
@@ -37,18 +52,25 @@ function test(tagName, times) {
 
     <button onclick="test('shallow-element',1000)">Test Shallow x 1000</button>
     <button onclick="test('composed-element',1000)">Test Composed x 1000</button>
+
     <h4>Disabled plus Focused</h4>
     <button onclick="test('shallow-element-two',1)">Test Shallow x 1</button>
     <button onclick="test('composed-element-two',1)">Test Composed x 1</button>
+    <button onclick="testXButton('extended-button',1)">Test Extended Button x 1</button>
 
     <button onclick="test('shallow-element-two',1000)">Test Shallow x 1000</button>
     <button onclick="test('composed-element-two',1000)">Test Composed x 1000</button>
+    <button onclick="testXButton('extended-button',1000)">Test Extended Button x 1000</button>
+
     <h4>Extra Children</h4>
     <button onclick="test('shallow-element-three',1)">Test Shallow x 1</button>
     <button onclick="test('composed-element-three',1)">Test Composed x 1</button>
+    <button onclick="testXButton('extended-button-two',1)">Test Extended Button x 1</button>
 
     <button onclick="test('shallow-element-three',1000)">Test Shallow x 1000</button>
     <button onclick="test('composed-element-three',1000)">Test Composed x 1000</button>
+    <button onclick="testXButton('extended-button-two',1000)">Test Extended Button x 1000</button>
+
 
   </body>
 </html>
