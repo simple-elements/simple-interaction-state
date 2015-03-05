@@ -1,0 +1,12 @@
+<link rel="import" href="../simple-disabled-state.html">
+<dom-module id="composed-element">
+  <template>
+    <simple-disabled-state disabled="{{disabled}}"></simple-disabled-state>
+    <span>Composed Element</span>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'composed-element'
+  });
+</script>

@@ -1,0 +1,56 @@
+<dom-module id="simple-disabled-state"></dom-module>
+<script>
+  Polymer({
+    is: 'simple-disabled-state',
+
+    published: {
+      disabled: {
+        type: Boolean,
+        notify: true,
+      },
+    },
+
+    configure: function() {
+      return {
+        disabled: false,
+        readyCalled: false,
+        disabledAttributeObserver: new MutationObserver(
+          this.onHostDisabledAttributeChanged.bind(this)
+        )
+      };
+    },
+
+    ready: function() {
+      this.readyCalled = true;
+      this.disabledAttributeObserver.observe(this.host, {
+        attributes: true,
+        attributeFilter: [
+          'disabled'
+        ]
+      });
+      this.disabled = this.host.hasAttribute('disabled');
+    },
+
+    bind: {
+      disabled: 'disabledChanged'
+    },
+
+    onHostDisabledAttributeChanged: function() {
+      this.disabled = this.host.hasAttribute('disabled');
+    },
+
+    disabledChanged: function() {
+      if (!this.readyCalled) {
+        return;
+      }
+
+      if (this.disabled) {
+        if (!this.host.hasAttribute('disabled')) {
+          this.host.setAttribute('disabled', '');
+        }
+      } else {
+        this.host.removeAttribute('disabled');
+      }
+    }
+  });
+</script>

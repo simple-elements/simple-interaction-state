@@ -1,0 +1,83 @@
+<dom-module id="simple-focused-state"></dom-module>
+<script>
+  Polymer({
+    is: 'simple-focused-state',
+
+    published: {
+      disabled: Boolean,
+
+      focused: {
+        type: Boolean,
+        notify: true,
+        readOnly: true,
+      },
+    },
+
+    bind: {
+      disabled: 'disabledChanged',
+      focused: 'focusedChanged',
+    },
+
+    configure: function() {
+      this._setFocused(false);
+
+      return {
+        disabled: false,
+        focused: false,
+        hostOldTabIndex: null,
+        hostOldPointerEvents: null,
+      };
+    },
+
+    attached: function() {
+      this.observeHost();
+    },
+
+    observeHost: function() {
+      this.host.addEventListener('focus', function() {
+        this._setFocused(true);
+      }.bind(this));
+
+      this.host.addEventListener('blur', function() {
+        this._setFocused(false);
+      }.bind(this));
+    },
+
+    focusedChanged: function() {
+      if (this.focused) {
+        this.host.setAttribute('focused', '');
+      } else {
+        this.host.removeAttribute('focused');
+      }
+    },
+
+    disabledChanged: function() {
+      if (this.disabled) {
+        if (this.host.style.pointerEvents) {
+          this.hostOldPointerEvents = this.host.style.pointerEvents;
+        }
+
+        if (this.host.hasAttribute('tabindex')) {
+          this.hostOldTabIndex = this.host.tabIndex;
+        }
+
+        this.focused = false;
+        this.host.style.pointerEvents = 'none';
+        this.host.removeAttribute('tabindex');
+      } else {
+        if (this.hostOldPointerEvents != null) {
+          this.host.style.pointerEvents = this.hostOldPointerEvents;
+        } else {
+          this.host.style.pointerEvents = '';
+        }
+
+        if (this.hostOldTabIndex != null) {
+          this.host.tabIndex = this.hostOldTabIndex;
+        }
+
+        this.hostOldPointerEvents =
+          this.hostOldTabIndex = null;
+      }
+    },
+  });
+</script>

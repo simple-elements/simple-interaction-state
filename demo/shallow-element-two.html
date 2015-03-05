@@ -1,0 +1,122 @@
+<dom-module id="shallow-element-two">
+  <template>
+    <span>Shallow Element Two</span>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'shallow-element-two',
+
+    published: {
+      disabled: {
+        type: Boolean,
+        notify: true,
+      },
+
+      focused: {
+        type: Boolean,
+        notify: true,
+        readOnly: true,
+      },
+    },
+
+    bind: {
+      disabled: 'disabledChanged',
+      focused: 'focusedChanged',
+    },
+
+    configure: function() {
+      this._setFocused(false);
+
+      return {
+        readyCalled: false,
+        disabledAttributeObserver: new MutationObserver(
+          this.onDisabledAttributeChanged.bind(this)
+        ),
+        disabled: false,
+        focused: false,
+        hostOldTabIndex: null,
+        hostOldPointerEvents: null,
+      };
+    },
+
+    attached: function() {
+      this.observeHost();
+    },
+
+    ready: function() {
+      this.readyCalled = true;
+      this.disabledAttributeObserver.observe(this, {
+        attributes: true,
+        attributeFilter: [
+          'disabled'
+        ]
+      });
+      this.disabled = this.hasAttribute('disabled');
+    },
+
+    observeHost: function() {
+      this.addEventListener('focus', function() {
+        this._setFocused(true);
+      }.bind(this));
+
+      this.addEventListener('blur', function() {
+        this._setFocused(false);
+      }.bind(this));
+    },
+
+
+    onDisabledAttributeChanged: function() {
+      this.disabled = this.hasAttribute('disabled');
+    },
+
+    focusedChanged: function() {
+      if (this.focused) {
+        this.setAttribute('focused', '');
+      } else {
+        this.removeAttribute('focused');
+      }
+    },
+
+    disabledChanged: function() {
+      if (!this.readyCalled) {
+        return;
+      }
+
+      if (this.disabled) {
+        if (!this.hasAttribute('disabled')) {
+          this.setAttribute('disabled', '');
+        }
+      } else {
+        this.removeAttribute('disabled');
+      }
+
+      if (this.disabled) {
+        if (this.style.pointerEvents) {
+          this.hostOldPointerEvents = this.style.pointerEvents;
+        }
+
+        if (this.hasAttribute('tabindex')) {
+          this.hostOldTabIndex = this.tabIndex;
+        }
+
+        this.focused = false;
+        this.style.pointerEvents = 'none';
+        this.removeAttribute('tabindex');
+      } else {
+        if (this.hostOldPointerEvents != null) {
+          this.style.pointerEvents = this.hostOldPointerEvents;
+        } else {
+          this.style.pointerEvents = '';
+        }
+
+        if (this.hostOldTabIndex != null) {
+          this.tabIndex = this.hostOldTabIndex;
+        }
+
+        this.hostOldPointerEvents =
+          this.hostOldTabIndex = null;
+      }
+    }
+  });
+</script>

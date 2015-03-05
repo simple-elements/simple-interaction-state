@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Perf Test</title>
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="./stateful-element.html">
+    <link rel="import" href="./shallow-element.html">
+    <link rel="import" href="./shallow-element-two.html">
+    <link rel="import" href="./composed-element.html">
+    <link rel="import" href="./composed-element-two.html">
+  </head>
+  <body>
+    <script>
+function test(tagName, times) {
+  times = times || 1;
+
+  for (var i = 0; i < times; ++i) {
+    var el = document.createElement(tagName);
+    document.body.appendChild(el);
+    el.disabled = true;
+    el.removeAttribute('disabled');
+    document.body.removeChild(el);
+  }
+}
+
+    </script>
+    <h4>Disabled Only</h4>
+    <button onclick="test('shallow-element',1)">Test Shallow x 1</button>
+    <button onclick="test('composed-element',1)">Test Composed x 1</button>
+
+    <button onclick="test('shallow-element',1000)">Test Shallow x 1000</button>
+    <button onclick="test('composed-element',1000)">Test Composed x 1000</button>
+    <h4>Disabled plus Focused</h4>
+    <button onclick="test('shallow-element-two',1)">Test Shallow x 1</button>
+    <button onclick="test('composed-element-two',1)">Test Composed x 1</button>
+
+    <button onclick="test('shallow-element-two',1000)">Test Shallow x 1000</button>
+    <button onclick="test('composed-element-two',1000)">Test Composed x 1000</button>
+  </body>
+</html>

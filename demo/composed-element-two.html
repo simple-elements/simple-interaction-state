@@ -1,0 +1,14 @@
+<link rel="import" href="../simple-disabled-state.html">
+<link rel="import" href="../simple-focused-state.html">
+<dom-module id="composed-element-two">
+  <template>
+    <simple-disabled-state disabled="{{disabled}}"></simple-disabled-state>
+    <simple-focused-state focused="{{focused}}" disabled="{{disabled}}"></simple-focused-state>
+    <span>Composed Element Two</span>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'composed-element-two'
+  });
+</script>
