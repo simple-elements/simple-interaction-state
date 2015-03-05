@@ -1,0 +1,22 @@
+{
+  "name": "simple-interaction-state",
+  "version": "0.0.0",
+  "homepage": "https://github.com/simple-elements/simple-interaction-state",
+  "authors": [
+    "Chris Joel <cdata@google.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper-ripple": "polymer/paper-ripple#0.8-preview",
+    "core-component-page": "Polymer/core-component-page#^0.5",
+    "paper-shadow": "polymer/paper-shadow#0.8-preview",
+    "polymer": "polymer/polymer#0.8-preview"
+  }
+}

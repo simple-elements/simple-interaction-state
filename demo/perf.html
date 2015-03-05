@@ -7,8 +7,10 @@
     <link rel="import" href="./stateful-element.html">
     <link rel="import" href="./shallow-element.html">
     <link rel="import" href="./shallow-element-two.html">
+    <link rel="import" href="./shallow-element-three.html">
     <link rel="import" href="./composed-element.html">
     <link rel="import" href="./composed-element-two.html">
+    <link rel="import" href="./composed-element-three.html">
   </head>
   <body>
     <script>
@@ -25,6 +27,10 @@ function test(tagName, times) {
 }
 
     </script>
+    <h4>Control (Native Button)</h4>
+    <button onclick="test('button',1)">Test Button x 1</button>
+    <button onclick="test('button',1000)">Test Button x 1000</button>
+
     <h4>Disabled Only</h4>
     <button onclick="test('shallow-element',1)">Test Shallow x 1</button>
     <button onclick="test('composed-element',1)">Test Composed x 1</button>
@@ -37,5 +43,12 @@ function test(tagName, times) {
 
     <button onclick="test('shallow-element-two',1000)">Test Shallow x 1000</button>
     <button onclick="test('composed-element-two',1000)">Test Composed x 1000</button>
+    <h4>Extra Children</h4>
+    <button onclick="test('shallow-element-three',1)">Test Shallow x 1</button>
+    <button onclick="test('composed-element-three',1)">Test Composed x 1</button>
+
+    <button onclick="test('shallow-element-three',1000)">Test Shallow x 1000</button>
+    <button onclick="test('composed-element-three',1000)">Test Composed x 1000</button>
+
   </body>
 </html>
