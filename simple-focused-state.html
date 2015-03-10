@@ -1,32 +1,33 @@
+<link rel="import" href="../polymer/polymer.html">
 <dom-module id="simple-focused-state"></dom-module>
 <script>
   Polymer({
     is: 'simple-focused-state',
 
-    published: {
-      disabled: Boolean,
+    properties: {
+      disabled: {
+        type: Boolean,
+        observer: 'disabledChanged',
+        value: false,
+      },
 
       focused: {
         type: Boolean,
         notify: true,
         readOnly: true,
+        observer: 'focusedChanged',
+        value: false,
       },
-    },
 
-    bind: {
-      disabled: 'disabledChanged',
-      focused: 'focusedChanged',
-    },
+      hostOldTabIndex: {
+        type: String,
+        value: null,
+      },
 
-    configure: function() {
-      this._setFocused(false);
-
-      return {
-        disabled: false,
-        focused: false,
-        hostOldTabIndex: null,
-        hostOldPointerEvents: null,
-      };
+      hostOldPointerEvents: {
+        type: String,
+        value: null
+      },
     },
 
     attached: function() {
@@ -36,11 +37,11 @@
     observeHost: function() {
       this.host.addEventListener('focus', function() {
         this._setFocused(true);
-      }.bind(this));
+      }.bind(this), true);
 
       this.host.addEventListener('blur', function() {
         this._setFocused(false);
-      }.bind(this));
+      }.bind(this), true);
     },
 
     focusedChanged: function() {

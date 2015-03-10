@@ -1,23 +1,27 @@
+<link rel="import" href="../polymer/polymer.html">
 <dom-module id="simple-disabled-state"></dom-module>
 <script>
   Polymer({
     is: 'simple-disabled-state',
 
-    published: {
+    properties: {
       disabled: {
         type: Boolean,
         notify: true,
+        observer: 'disabledChanged',
       },
-    },
 
-    configure: function() {
-      return {
-        disabled: false,
-        readyCalled: false,
-        disabledAttributeObserver: new MutationObserver(
-          this.onHostDisabledAttributeChanged.bind(this)
-        )
-      };
+      readyCalled: {
+        value: false
+      },
+
+      disabledAttributeObserver: {
+        value: function () {
+          return new MutationObserver(
+            this.onHostDisabledAttributeChanged.bind(this)
+          );
+        },
+      },
     },
 
     ready: function() {
@@ -29,10 +33,6 @@
         ]
       });
       this.disabled = this.host.hasAttribute('disabled');
-    },
-
-    bind: {
-      disabled: 'disabledChanged'
     },
 
     onHostDisabledAttributeChanged: function() {

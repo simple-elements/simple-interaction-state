@@ -1,3 +1,4 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <dom-module id="shallow-element">
   <template>
     <span>Shallow Element</span>
@@ -7,25 +8,25 @@
   Polymer({
     is: 'shallow-element',
 
-    published: {
+    properties: {
       disabled: {
         type: Boolean,
         notify: true,
+        observer: 'disabledChanged'
       },
-    },
 
-    bind: {
-      disabled: 'disabledChanged',
-    },
+      readyCalled: {
+        type: Boolean,
+        value: false
+      },
 
-    configure: function() {
-      return {
-        readyCalled: false,
-        disabledAttributeObserver: new MutationObserver(
-          this.onDisabledAttributeChanged.bind(this)
-        ),
-        disabled: false,
-      };
+      disabledAttributeObserver: {
+        value: function () {
+          return new MutationObserver(
+            this.onDisabledAttributeChanged.bind(this)
+          );
+        },
+      },
     },
 
     ready: function() {

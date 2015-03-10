@@ -5,12 +5,14 @@
     <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../bower_components/polymer/polymer.html">
     <link rel="import" href="./stateful-element.html">
-    <link rel="import" href="./shallow-element.html">
-    <link rel="import" href="./composed-element.html">
+    <link rel="import" href="./shallow-element-two.html">
+    <link rel="import" href="./composed-element-two.html">
+    <link rel="import" href="./nested-focusable.html">
     <style>
-      stateful-element {
+body > * {
         padding: 1em;
       }
+
     </style>
   </head>
   <body>
@@ -18,7 +20,8 @@
     <stateful-element disabled></stateful-element>
     <stateful-element tabindex="0"></stateful-element>
     <stateful-element tabindex="0" disabled></stateful-element>
-    <shallow-element></shallow-element>
-    <composed-element></composed-element>
+    <shallow-element-two></shallow-element-two>
+    <composed-element-two></composed-element-two>
+    <nested-focusable tabindex="0"></nested-focusable>
   </body>
 </html>

@@ -1,3 +1,4 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <dom-module id="shallow-element-two">
   <template>
     <span>Shallow Element Two</span>
@@ -6,6 +7,51 @@
 <script>
   Polymer({
     is: 'shallow-element-two',
+
+    properties: {
+      disabled: {
+        type: Boolean,
+        notify: true,
+        observer: 'disabledChanged'
+      },
+
+      readyCalled: {
+        type: Boolean,
+        value: false
+      },
+
+      disabledAttributeObserver: {
+        value: function () {
+          return new MutationObserver(
+            this.onDisabledAttributeChanged.bind(this)
+          );
+        },
+      },
+
+      disabled: {
+        type: Boolean,
+        observer: 'disabledChanged',
+        value: false,
+      },
+
+      focused: {
+        type: Boolean,
+        notify: true,
+        readOnly: true,
+        observer: 'focusedChanged',
+        value: false,
+      },
+
+      hostOldTabIndex: {
+        type: String,
+        value: null,
+      },
+
+      hostOldPointerEvents: {
+        type: String,
+        value: null
+      },
+    },
 
     published: {
       disabled: {
@@ -23,21 +69,6 @@
     bind: {
       disabled: 'disabledChanged',
       focused: 'focusedChanged',
-    },
-
-    configure: function() {
-      this._setFocused(false);
-
-      return {
-        readyCalled: false,
-        disabledAttributeObserver: new MutationObserver(
-          this.onDisabledAttributeChanged.bind(this)
-        ),
-        disabled: false,
-        focused: false,
-        hostOldTabIndex: null,
-        hostOldPointerEvents: null,
-      };
     },
 
     attached: function() {

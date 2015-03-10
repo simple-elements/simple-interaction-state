@@ -3,74 +3,110 @@
   <head>
     <title>Perf Test</title>
     <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../bower_components/polymer/polymer.html">
-    <link rel="import" href="./extended-button.html">
-    <link rel="import" href="./extended-button-two.html">
-    <link rel="import" href="./stateful-element.html">
-    <link rel="import" href="./shallow-element.html">
-    <link rel="import" href="./shallow-element-two.html">
-    <link rel="import" href="./shallow-element-three.html">
-    <link rel="import" href="./composed-element.html">
-    <link rel="import" href="./composed-element-two.html">
-    <link rel="import" href="./composed-element-three.html">
+    <link rel="import" href="../bower_components/simple-benchmark/simple-benchmark.html">
   </head>
   <body>
+    <simple-benchmark runs-per-test="100">
+      <template data-name="Native Button creation.">
+        <link rel="import" href="./extended-button.html">
+        <script>
+          StartTest();
+        </script>
+        <script>
+          var button = document.createElement('button');
+        </script>
+        <script>
+          EndTest();
+        </script>
+      </template>
+
+      <template data-name="Extended Button creation.">
+        <link rel="import" href="./extended-button.html">
+        <script>
+          StartTest();
+        </script>
+        <script>
+          var button = document.createElement('button', 'extended-button');
+        </script>
+        <script>
+          EndTest();
+        </script>
+      </template>
+
+      <template data-name="Mixed-in Custom Element creation.">
+        <link rel="import" href="./shallow-element-two.html">
+        <script>
+          StartTest();
+        </script>
+        <script>
+          var element = document.createElement('shallow-element-two');
+        </script>
+        <script>
+          EndTest();
+        </script>
+      </template>
+
+      <template data-name="Composed Custom Element creation.">
+        <link rel="import" href="./composed-element-two.html">
+        <script>
+          StartTest();
+        </script>
+        <script>
+          var element = document.createElement('composed-element-two');
+        </script>
+        <script>
+          EndTest();
+        </script>
+      </template>
+      <template data-name="Extended Element disabled behavior.">
+        <link rel="import" href="./extended-button.html">
+        <script>
+          var element = document.createElement('button', 'extended-button');
+          document.body.appendChild(element);
+          StartTest();
+        </script>
+        <script>
+            element.disabled = true;
+            element.removeAttribute('disabled');
+        </script>
+        <script>
+          EndTest();
+        </script>
+      </template>
+      <template data-name="Mixed-in Custom Element disabled behavior.">
+        <link rel="import" href="./shallow-element-two.html">
+        <script>
+          var element = document.createElement('shallow-element-two');
+          document.body.appendChild(element);
+          StartTest();
+        </script>
+        <script>
+            element.disabled = true;
+            element.removeAttribute('disabled');
+        </script>
+        <script>
+          EndTest();
+        </script>
+      </template>
+
+      <template data-name="Composed Custom Element disabled behavior.">
+        <link rel="import" href="./composed-element-two.html">
+        <script>
+          var element = document.createElement('composed-element-two');
+          document.body.appendChild(element);
+          StartTest();
+        </script>
+        <script>
+          element.disabled = true;
+          element.removeAttribute('disabled');
+        </script>
+        <script>
+          EndTest();
+        </script>
+      </template>
+    </simple-benchmark>
     <script>
-function test(tagName, times) {
-  times = times || 1;
-
-  for (var i = 0; i < times; ++i) {
-    var el = document.createElement(tagName);
-    document.body.appendChild(el);
-    el.disabled = true;
-    el.removeAttribute('disabled');
-    document.body.removeChild(el);
-  }
-}
-
-function testXButton(tagName, times) {
-  times = times || 1;
-
-  for (var i = 0; i < times; ++i) {
-    var el = document.createElement('button', tagName);
-    document.body.appendChild(el);
-    el.disabled = true;
-    el.removeAttribute('disabled');
-    document.body.removeChild(el);
-  }
-}
-
+      document.querySelector('simple-benchmark').runTests();
     </script>
-    <h4>Control (Native Button)</h4>
-    <button onclick="test('button',1)">Test Button x 1</button>
-
-    <button onclick="test('button',1000)">Test Button x 1000</button>
-
-    <h4>Disabled Only</h4>
-    <button onclick="test('shallow-element',1)">Test Shallow x 1</button>
-    <button onclick="test('composed-element',1)">Test Composed x 1</button>
-
-    <button onclick="test('shallow-element',1000)">Test Shallow x 1000</button>
-    <button onclick="test('composed-element',1000)">Test Composed x 1000</button>
-
-    <h4>Disabled plus Focused</h4>
-    <button onclick="test('shallow-element-two',1)">Test Shallow x 1</button>
-    <button onclick="test('composed-element-two',1)">Test Composed x 1</button>
-    <button onclick="testXButton('extended-button',1)">Test Extended Button x 1</button>
-
-    <button onclick="test('shallow-element-two',1000)">Test Shallow x 1000</button>
-    <button onclick="test('composed-element-two',1000)">Test Composed x 1000</button>
-    <button onclick="testXButton('extended-button',1000)">Test Extended Button x 1000</button>
-
-    <h4>Extra Children</h4>
-    <button onclick="test('shallow-element-three',1)">Test Shallow x 1</button>
-    <button onclick="test('composed-element-three',1)">Test Composed x 1</button>
-    <button onclick="testXButton('extended-button-two',1)">Test Extended Button x 1</button>
-
-    <button onclick="test('shallow-element-three',1000)">Test Shallow x 1000</button>
-    <button onclick="test('composed-element-three',1000)">Test Composed x 1000</button>
-    <button onclick="testXButton('extended-button-two',1000)">Test Extended Button x 1000</button>
-
-
   </body>
 </html>
